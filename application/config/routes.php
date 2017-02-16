@@ -50,14 +50,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |		my-controller/my-method	-> my_controller/my_method
 */
 // Default controller
-$route['default_controller'] = "ValidateController";
+$route['default_controller'] = "Login";
+$route['assets/(:any)'] = 'assets/$1';
 
 // Add new pages/controllers in array.
 $pages = array(
-	"register" 	=> "RegisterController",
-	"login"		=> "LoginController",
-	"logout"	=> "HomeController/logout",
-	"lingo"		=> "HomeController",
+	"register" 	=> "Register",
+	"login"		=> "Login",
+	"logout"	=> "Home/logout",
+	"lingo"		=> "Home",
 );
 
 foreach($pages as $page => $controller) {

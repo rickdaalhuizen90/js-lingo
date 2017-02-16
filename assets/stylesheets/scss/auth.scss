@@ -1,0 +1,133 @@
+@import 'mixins/default-mixins.scss';
+
+// Custom variables
+$primary-font: 'Questrial', sans-serif ;
+$bg-color: rgba(10, 98, 255, 0.85);
+$bg-solid: #2055b3;
+$layer-color: rgba(0,0,0,.3);
+$primary-color: rgba(229, 44, 42, 0.74);
+$secondary-color: rgba(251, 251, 251, 0.22);
+$white: rgba(250,250,250,.8);
+$turquoise: #06dbff;
+
+html{
+	height: 100%;
+	padding: 0;
+	margin: 0;
+}
+
+body {
+	background: $bg-color !important;
+	letter-spacing: 3px;
+}
+
+#logo {
+	position: relative;
+    top: 80px;
+	display: block;
+    background-image: url('/build/images/logo.png');
+    background-size: cover;
+    background-position: center;
+    width: 310px;
+    margin: 0 auto;
+    padding: 30px;
+}
+
+.layer {
+	background: $layer-color;
+	position: absolute;
+	height: 100vh;
+	width: 100%;
+	z-index: -1;
+}
+
+#login_form,
+#register_form {
+	display: block;
+	margin: 0 auto;
+	padding: 5em 1.5em;
+	height: auto;
+	width: 100%;
+	max-width: 500px;
+
+	h3 {
+		/*font-family, font-size, font-weight, color,  letter-spacing*/
+		@include font($primary-font, 1.5em, 200, $white, 5px);
+		margin: 2.5em;
+		text-align: center;
+		text-transform: uppercase;
+
+		@include slideY(1s);
+	}
+
+	@include slideY-keyframes(-50px);
+
+	#error_messages p {
+		@include error-msg();
+	}
+
+	input[type="text"],
+	input[type="email"],
+	input[type="password"] {
+		border: none;
+		border-radius: 0;
+		margin: 8px 0;
+		background: $secondary-color;
+		color: #fff;
+		text-shadow: 2px 2px 5px rgba(99, 97, 97, 0.59);
+	}
+
+	input[type="submit"] {
+		border: none;
+	    background: $primary-color;
+	    width: 100%;
+	    text-align: center;
+	    color: #fff;
+
+	    @include hover();
+	    @include transition();
+
+	    &:focus,
+	    &:hover {
+	    	background: rgba(43, 100, 232, .7);
+	    	cursor: pointer;
+	    	box-shadow: rgba(30, 22, 54, 0.7) 0 80px 0px 2px inset;
+	    }
+	}
+
+	#login_form_redirect {
+		display: block;
+		margin: 0 auto;
+		font-family: $primary-font;
+		color: $white;
+		text-decoration: none;
+	    line-height: 5em;
+	    text-align: center;	     
+	    @include transition();
+
+		&:hover {
+			color: $turquoise;
+		}
+	}
+
+	#register_form_redirect {
+		display: block;
+		margin: 0 auto;
+		font-family: $primary-font;
+		color: $white;
+		text-decoration: none;
+	    line-height: 5em;
+	    text-align: center;
+	    @include transition();
+
+		a {
+			font-family: $primary-font;
+			color: $white;
+			text-decoration: none;
+
+			&:hover {
+				color: $turquoise;
+			}
+		}
+	}
+}

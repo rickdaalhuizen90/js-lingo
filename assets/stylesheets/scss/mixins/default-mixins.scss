@@ -1,0 +1,104 @@
+@mixin font($font-family, $font-size, $font-weight, $color, $letter-spacing) {
+  	font-family: $font-family;
+	font-size: $font-size;
+	font-weight: $font-weight;
+	letter-spacing: $letter-spacing;
+	color: $color;
+}
+
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+     -moz-border-radius: $radius;
+      -ms-border-radius: $radius;
+          border-radius: $radius;
+}
+
+@mixin gradient-bg() {
+    //background: linear-gradient(180deg, rgba(255,255,255,0) 60%, #fff),linear-gradient(70deg, #e0f1ff 32%, #fffae3);
+    background: linear-gradient(180deg, rgba(66, 66, 66, 0) 60%, #5c945b), linear-gradient(70deg, #c7a1c7 32%, #45c3ca);
+}
+
+@mixin transition() {
+	-webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+@mixin hover() {
+	-webkit-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+	-moz-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+	-ms-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+	-o-transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+	transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
+
+	// box-shadow: rgba(30, 22, 54, 0.7) 0 80px 0px 2px inset;
+	// box-shadow: rgba(30, 22, 54, 0.7) 0 0px 0px 40px inset;
+}
+
+@mixin slideY($s) {
+    -webkit-animation: fade-slide-down ease $s;
+   	animation: fade-slide-down ease $s;
+}
+
+@mixin slideY-keyframes($t) {
+	@-webkit-@keyframes fade-slide-down {
+	  from {
+	    opacity: 0;
+	    transform: translateY($t);
+	  }
+	  
+	  to {
+	    opacity: 1;
+	    transform: translateY(0);
+	  }
+	}
+
+	@keyframes fade-slide-down {
+	  from {
+	    opacity: 0;
+	    transform: translateY($t);
+	  }
+	  
+	  to {
+	    opacity: 1;
+	    transform: translateY(0);
+	  }
+	}
+}
+
+@mixin color_animation($s) {
+	-webkit-animation-name: color_change; /* Safari 4.0 - 8.0 */
+    -webkit-animation-duration: $s; /* Safari 4.0 - 8.0 */
+    animation-name: color_change;
+    animation-duration: $s;
+}
+
+@mixin color-animation-keyframes($s,$from, $to) {
+
+	/* Safari 4.0 - 8.0 */
+	@-webkit-keyframes color_change {
+	    from {background-color: $from;}
+	    to {background-color: $to;}
+	}
+
+	/* Standard syntax */
+	@keyframes color_change {
+	    from {background-color: $from;}
+	    to {background-color: $to;}
+	}
+}
+
+@mixin error-msg() {
+	background: rgba(255, 42, 42, 0.45);
+    letter-spacing: 1px;
+    text-align: center;
+    border-radius: 3px;
+    font-size: .8em;
+    color: #fff;
+    line-height: 230%;
+}
+
+@mixin success-msg {
+
+}

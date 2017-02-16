@@ -1,17 +1,20 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if(!defined('BASEPATH')) exit('No direct script access allowed');
 
-if ( ! function_exists('view_page'))
+if(!function_exists('view_page'))
 {
     function view_page($page = 'login')
 	{
 		$CI = &get_instance();
 
-        // Get Session username when Session is setted.
-        if ($CI->session->userdata('logged_in')) {
-            $session = $CI->session->userdata('logged_in');
-            $data['username'] = $session['username'];
-        } else {
-            $session = null;
+        if(isset($_COOKIE['Authentication'])) {
+            $jwt = JWT::decode($_COOKIE['Authentication'], 'DS68N%ISwW*1^Z0qWH^ezjkE7atZde0Pf1');
+
+            /*
+            eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJyaWNrQGdtYWlsLmNvbSIsImlzcyI6InJpY2siLCJzY29wZXMiOlsiYWRtaW4iLCJ1c2VyIl0sImV4cCI6MTQ4NzM1MTY2NH0.JyKccNJxYw19hMuM-stedf6q6QaSRz_x7fOmEybWtxKA9iuzmUdgUiRSrsqVNlWAmKN6ZmJ40KkOiJQV0yO0fw
+            */
+
+            $data['email'] = $jwt->sub;
+            $data['username'] = $jwt->iss;
         }
 		
         if ( ! file_exists(APPPATH.'views/pages/'.$page.'.php')) 

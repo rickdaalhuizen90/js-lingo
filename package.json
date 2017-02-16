@@ -1,0 +1,35 @@
+{
+  "name": "lingo",
+  "version": "1.0.0",
+  "description": "Lingo game",
+  "main": "index.php",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rickdaalhuizen90/lingo.git"
+  },
+  "keywords": [
+    "Lingo",
+    "Online",
+    "game",
+    "School",
+    "project"
+  ],
+  "author": "Rick Daalhuizen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rickdaalhuizen90/lingo/issues"
+  },
+  "homepage": "https://github.com/rickdaalhuizen90/lingo#readme",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-cssmin": "^2.0.0",
+    "grunt-contrib-imagemin": "^1.0.1",
+    "grunt-contrib-sass": "^1.0.0",
+    "grunt-contrib-uglify": "^0.5.1",
+    "grunt-contrib-watch": "^1.0.0"
+  }
+}
