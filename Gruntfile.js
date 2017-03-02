@@ -3,7 +3,7 @@ module.exports = function(grunt) {
 	grunt.initConfig({
 	  	concat: {
 		    js: {
-		      	src: ['assets/js/bot.js', 'assets/js/player.js', 'assets/js/game.js'],
+		      	src: ['assets/js/app.js'],
 		      	dest: 'build/js/scripts.js',
 		    },
 		    css: {

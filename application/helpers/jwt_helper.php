@@ -15,6 +15,18 @@
 class JWT
 {
 	/**
+	 * Custom function: Rick Daalhuizen.
+	 * Return the secret key
+	 * @return constant 	KEY 	The secret key
+	 */
+	public static function get_key()
+	{
+		// Set your key
+		define("KEY", "DS68N%ISwW*1^Z0qWH^ezjkE7atZde0Pf1");
+
+		return KEY;
+	}
+	/**
 	 * Decodes a JWT string into a PHP object.
 	 *
 	 * @param string      $jwt    The JWT

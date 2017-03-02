@@ -1,6 +1,6 @@
-<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php if (!defined("BASEPATH")) exit("No direct script access allowed");
 
-class Login extends CI_Controller
+class Login extends MY_Controller
 {
     private $_db;
 
@@ -8,25 +8,31 @@ class Login extends CI_Controller
     {
         parent::__construct();
 
-        // Load libraries and helpers
-        $this->load->library('form_validation');
-        $this->load->helper('form');
-
         // Load loginModel
-        if($this->load->model('loginModel', true))
+        if($this->load->model("loginModel", true))
             $this->_db = new LoginModel;
     }
 
     public function index()
     {
-        if(isset($_COOKIE['Authentication'])) {
+        if(isset($_COOKIE["Player"]) || isset($_COOKIE["Guest"])) {         
             
-            return view_page('lingo');
-            exit;
+            return view_page("lingo");
+            exit;            
         } else {
+
+            // Check if it's an user login or guest login.
+            if($_SERVER["REQUEST_METHOD"] === "POST"){
+                if($this->input->post("submit_login_guest")){
+
+                    // No need to validate on a guest account.
+                    $this->_create_jwt();
+                }else{
+                    $this->_validate();
+                }
+            }    
             
-            $this->_validate();
-            return view_page('login');
+            return view_page("login");
             exit;
         }
     }
@@ -34,17 +40,16 @@ class Login extends CI_Controller
     private function _user_input()
     {
         return (object) array(
-            "username" => $this->input->post('username'),
-            "password" => $this->input->post('password')
+            "username"  => $this->input->post("username"),
+            "password"  => $this->input->post("password")
         );
     }
 
     private function _validate()
     {
-        if($this->input->post('submit_login')) {
-
-            $this->form_validation->set_rules('username', 'Username', 'trim|required');
-            $this->form_validation->set_rules('password', 'Password', 'trim|required|callback_verify_login');
+        if($this->input->post("submit_login")) {
+            $this->form_validation->set_rules("username", "Username", "trim|required");
+            $this->form_validation->set_rules("password", "Password", "trim|required|callback_verify_login");
         }
 
         if ($this->form_validation->run() !== false)
@@ -56,22 +61,19 @@ class Login extends CI_Controller
     public function verify_login()
     {
          
-        // init user input
+        // initialize user input
         $username = $this->_user_input()->username;
         $password = $this->_user_input()->password;
         
         try {
 
-             //query the database
-            $result = $this->_db->get_login_credentials($username);
-
-            // Return null if result is empty.
+            $result = $this->_db->get_username($username);
             $result !== false ? $hash = $result[0]->password : $hash = null;
-            
+
             if($result !== false && $hash !== null) {
 
-                // create jwt if password hash matches.
-                if($this->bcrypt->check_password($password, $hash))
+                // create jwt if password hash matches.  
+                if(password_verify($password, $hash)) 
                     $this->_create_jwt($result);
                 
             } else {
@@ -80,73 +82,96 @@ class Login extends CI_Controller
    
         } catch (Exception $e) {
 
-            $this->form_validation->set_message('required', $e->getMessage());
+            $this->form_validation->set_message("required", $e->getMessage());
         }
     }
 
-    private function _create_jwt($result)
+    private function _create_jwt($result = null)
     {
+        // Create jwt if credentials are valid.
         if($result) {
-
+            $user_id    = $result[0]->id;
             $username   = $result[0]->username;
             $email      = $result[0]->email;
-            $exp_date   = date('d-m-y G:i:s', strtotime('+1 days'));
-            $algorithm  = 'HS512'; // HS256, HS385
-            $key        = 'DS68N%ISwW*1^Z0qWH^ezjkE7atZde0Pf1';
+        }
 
-            /*
-            * -------------------------------------------------
-            *                      CLAIMS
-            * -------------------------------------------------
-            *  Sub: Who this person is (sub, short for subject)
-            *  Iss: Who issued the token (iss, short for issuer)
-            *  Scopes: What this person can access with this token (scope)
-            *  Exp: When the token expires (exp)
-            */
+         // Get avatar   
+        $path = "./assets/images/thumbs/";
+        if(!file_exists($path . md5($email). ".png")) { 
+            // Return default avatar 
+            $avatar = "{$path}avatar.png";
+        } else {           
+            $avatar = $path . md5($email).".png";
+        }
+
+        $exp_date   = date("d-m-y H:i:s", strtotime("+1 days"));
+        $algorithm  = "HS512"; // HS256, HS385
+        $key        = JWT::get_key();
+
+        /*
+        * -------------------------------------------------
+        *                      CLAIMS
+        * -------------------------------------------------
+        *  Sub: Who this person is (sub, short for subject)
+        *  Iss: Who issued the token (iss, short for issuer)
+        *  Scopes: What this person can access with this token (scope)
+        *  Exp: When the token expires (exp)
+        */
+       
+        if(isset($_POST["submit_login"])) {
+
+            // Payload for player
+            $cookie_name = "Player";
             $payload = array (
-                'sub' => $email,
-                'iss' => $username,
-                'scopes' => ["admin", "user"],
-                'exp' => strtotime($exp_date), // Expire date
+                // Registered claims
+                "sub"       => "user",
+                "iss"       => $_SERVER["SERVER_NAME"],
+                "exp"       => strtotime($exp_date), // Expire date
+                // Public claims
+                "scopes"    => ["user", "player"],
+                "id"        => $user_id,
+                "name"      => $username,
+                "email"     => $email,
+                "img"       => $avatar,
             );
 
-            // Jason Webtoken
-            // Header typ: JWT & default algorithm: HS256
+        } elseif (isset($_POST["submit_login_guest"])) {
+
+            // Payload for guest
+            $cookie_name = "Guest";
+            $payload = array (
+                // Registered claims
+                "sub"       => "user",
+                "iss"       => $_SERVER["SERVER_NAME"],
+                "exp"       => strtotime($exp_date), // Expire date
+                // Public claims
+                "scopes"    => ["user", "guest"],
+                "id"        => mt_rand(1, 100000),
+                "name"      => "Guest",
+                "email"     => "guest@email.com",
+                "img"       => $avatar,
+            );
+        }
+        
+        // Jason Webtoken
+        // Header typ: JWT & default algorithm: HS256
+        try {
+
             if($token = JWT::encode($payload, $key, $algorithm)) {
 
                 // Set cookie
                 // https://stormpath.com/blog/where-to-store-your-jwts-cookies-vs-html5-web-storage
-                setcookie('Authentication', $token, time() + (86400 * 30), "/");
+                setcookie($cookie_name, $token, time() + (86400 * 7), "/");
 
                 // Redirect to admin area
-                redirect('lingo'); 
+                redirect("lingo"); 
                 exit;
+            } else {
+                throw new Exception("Oops... Something went wrong, please try again.");
             }
-                    
+
+        } catch (Exception $e) {
+            return $e->getMessage();
         }
-        
     }
-
-    /*
-    IF YOU WANT TO USE SESSION!
-    private function _create_user_session($result)
-    {
-        if($result) {
-
-            // Create an user session
-            $sess_array = array();
-            foreach ($result as $row) {
-                $session_data = array(
-                    'id'        => $row->id,
-                    'username'  => $row->username,
-                    'logged_in' => true
-                );
-                $this->session->set_userdata($session_data);
-            }
-            
-            redirect('lingo'); //Go to private area
-            exit;
-        } 
-    }
-    */
 }

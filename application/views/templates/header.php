@@ -14,10 +14,6 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
         <script src="http://cdn.auth0.com/js/lock/10.2/lock.min.js"></script>
 
-        <!--  loading fonts asynchronously -->
-        <script type="text/javascript" src="//use.typekit.net/iws6ohy.js"></script>
-        <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
-
         <!-- Stylesheets -->
         <link rel="stylesheet" href="<?php echo base_url('assets/stylesheets/css/style.css'); ?>">
 

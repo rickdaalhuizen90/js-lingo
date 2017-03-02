@@ -1,0 +1,164 @@
+$white: #f7f3f3;
+$nav-color: #2f5dad;
+body {
+	margin: 0;
+	padding: 0;
+}
+
+// Pop-up Model
+#pop_up_model {
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(10,10,10,0.8);
+
+	#model_content {
+		display: block;
+		margin: 3em auto;
+		padding: 3em 2em;
+		width: 100%;
+		max-width: 500px;
+		background: white;
+		border-radius: 0.3em;
+		@include box-shadow(0.3);
+
+		h3 {
+			font-size: 3em;
+			font-weight: 200 !important;
+			letter-spacing: 0.3em;
+			color: $nav-color; 
+			margin-bottom: 45px !important;
+			text-align: center;
+		}
+
+		button {
+			display: block;
+			margin: 15px auto;
+			width: 100%;
+			max-width: 210px;
+		}
+
+		#single_player_content,
+		#multi_player_content {
+    		padding: 2em 6em;
+    		margin: 0;
+		}
+		input.play_game.button.outline {
+			position: relative;
+			top: 10px;
+			width: 100%;
+		}
+
+	}
+}
+
+main.container {
+	display: block;
+    margin: 0 auto;
+    background: $white;
+    height: 100vh;
+    width: 100%;
+    max-width: 800px;
+	@include box-shadow(0.3);
+
+	nav {
+		display: inline-flex;
+		background-color: $nav-color;
+		width: 100%;
+		height: auto;
+		padding: 1.4em;
+		border-bottom: 1px solid #eeeeee;
+
+		#open_nav {
+			position: relative;
+			top: 8px;
+			cursor: pointer;
+			font-size: 2em;
+    		color: $white;
+		}
+
+		#scoreboard {
+		    display: block;
+		    margin: 0 auto;
+		    width: 100%;
+		    text-align: center;
+
+			#player_one_score,
+			#player_two_score {
+				margin-right: 1.2em;
+				padding: 10px 20px !important;
+			}
+		}
+	}
+
+	#side_bar {
+		position: fixed;
+	    z-index: 1;
+	    top: 0;
+	    left: 0;
+	    background-color: rgb(10, 98, 255);
+		padding: 5px 0px;
+	    height: 100%;
+	    width: 0;
+	    color: $white;
+	    overflow-x: hidden;
+	    transition: 0.3s;
+
+		#close_nav {
+			display: block;
+			padding: 15px;
+			text-align: right;
+			text-decoration: none;
+			font-size: 2.5em;
+			color: #fff;
+		}
+
+		#profile {
+			width: 250px;
+			padding: 15px;
+
+			p {margin-bottom: 5px;} // style reset
+
+			#avatar {
+				position: relative;
+				bottom: 15px;
+			    width: 110px;
+			    height: 110px;
+			    display: block;
+			    margin: 10px auto;
+			    border-radius: 100%;
+			    background-color: #fff;
+			    background-size: cover;
+			    background-position: center;
+			}
+
+			#username,
+			#room_name {
+			    padding: 3px 15px;
+			    //border: 1px solid #fff;
+			    color: $white;
+			    transition: 0.3s;
+			    font-size: 12px !important;
+			    border-radius: 3px;
+			    background: rgba(54, 54, 234, 0.78);
+			}
+
+			#logout {
+				text-decoration: none;
+				color: $white;
+
+				&:hover {
+					color: #eee;
+				}
+			}
+		}
+
+	}	
+	// Responsive
+	@media screen and (max-height: 450px) {
+	  	#side_bar {padding-top: 15px;}
+	  	#side_bar a {font-size: 18px;}
+	}
+}

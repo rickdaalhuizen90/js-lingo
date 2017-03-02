@@ -6,11 +6,26 @@
 	color: $color;
 }
 
+@mixin box-shadow($opacity) {
+	-webkit-box-shadow: 0px 0px 7px 2px rgba(0,0,0,$opacity);
+	-moz-box-shadow: 0px 0px 7px 2px rgba(0,0,0,$opacity);
+	box-shadow: 0px 0px 7px 2px rgba(0,0,0,$opacity);
+}
+
 @mixin border-radius($radius) {
-  -webkit-border-radius: $radius;
-     -moz-border-radius: $radius;
-      -ms-border-radius: $radius;
-          border-radius: $radius;
+  	-webkit-border-radius: $radius;
+    -moz-border-radius: $radius;
+    -ms-border-radius: $radius;
+    -o-border-radius: $radius;
+    border-radius: $radius;
+}
+
+@mixin fade-out($s) {
+	-webkit-transition: opacity $s ease-in-out;
+   	-moz-transition: opacity $s ease-in-out;
+    -ms-transition: opacity $s ease-in-out;
+    -o-transition: opacity $s ease-in-out;
+    opacity: 1;
 }
 
 @mixin gradient-bg() {
