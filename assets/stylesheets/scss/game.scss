@@ -1,18 +1,23 @@
 $white: #f7f3f3;
-$nav-color: #2f5dad;
+$white-transparent: rgba(255, 255, 255, 0.8);
+$light-blue: rgba(7, 70, 170, 0.8);
+$dark-blue: rgba(15, 45, 100, 0.9);
+$dark-layer: rgba(10,10,10,.8);
 body {
+	background: $light-blue;
 	margin: 0;
 	padding: 0;
 }
 
 // Pop-up Model
 #pop_up_model {
+	display: none;
 	position: fixed;
 	left: 0;
 	top: 0;
 	width: 100%;
 	height: 100%;
-	background: rgba(10,10,10,0.8);
+	background: $dark-layer;
 
 	#model_content {
 		display: block;
@@ -20,34 +25,48 @@ body {
 		padding: 3em 2em;
 		width: 100%;
 		max-width: 500px;
-		background: white;
 		border-radius: 0.3em;
+		background: $white-transparent;
 		@include box-shadow(0.3);
 
-		h3 {
-			font-size: 3em;
-			font-weight: 200 !important;
-			letter-spacing: 0.3em;
-			color: $nav-color; 
-			margin-bottom: 45px !important;
+		#logo {
+			display: block;
+			margin: 0 auto;
+			padding: 2em;
+			margin: 1.5em 0em 2.5em 0em;
+			width: 100%;
+			height: auto;
+			background: url(/build/images/logo.png) no-repeat center center; 
+			@include background-size(contain);
+		}
+
+		h6 {
 			text-align: center;
+			text-transform: uppercase;
 		}
 
 		button {
 			display: block;
 			margin: 15px auto;
 			width: 100%;
-			max-width: 210px;
+			max-width: 245px;
+			text-transform: uppercase;
 		}
 
-		#single_player_content,
-		#multi_player_content {
+		select.button.secondary.set_game_mode{
+			padding-left: 40% !important;
+		}
+
+		#single_player_content {
     		padding: 2em 6em;
     		margin: 0;
 		}
-		input.play_game.button.outline {
+
+		input.button.secondary,
+		input.play_game {
 			position: relative;
 			top: 10px;
+			margin: 0.3em 0 !important;
 			width: 100%;
 		}
 
@@ -57,19 +76,15 @@ body {
 main.container {
 	display: block;
     margin: 0 auto;
-    background: $white;
     height: 100vh;
     width: 100%;
     max-width: 800px;
-	@include box-shadow(0.3);
 
 	nav {
 		display: inline-flex;
-		background-color: $nav-color;
 		width: 100%;
 		height: auto;
 		padding: 1.4em;
-		border-bottom: 1px solid #eeeeee;
 
 		#open_nav {
 			position: relative;
@@ -85,8 +100,9 @@ main.container {
 		    width: 100%;
 		    text-align: center;
 
-			#player_one_score,
-			#player_two_score {
+			#score,
+			#time,
+			#lives {
 				margin-right: 1.2em;
 				padding: 10px 20px !important;
 			}
@@ -98,7 +114,7 @@ main.container {
 	    z-index: 1;
 	    top: 0;
 	    left: 0;
-	    background-color: rgb(10, 98, 255);
+	    background-color: $dark-blue;
 		padding: 5px 0px;
 	    height: 100%;
 	    width: 0;

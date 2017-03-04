@@ -2,10 +2,11 @@
 
 // Custom variables
 $primary-font: 'Questrial', sans-serif ;
-$bg-color: rgba(10, 98, 255, 0.85);
+$bg-color: rgba(7, 70, 170, 0.8);
 $bg-solid: #2055b3;
-$layer-color: rgba(0,0,0,.3);
-$primary-color: rgba(229, 44, 42, 0.74);
+$layer-color: rgba(0,0,0,0.3);
+$dark-layer: rgba(10,10,10,.8);
+$primary-color: rgba(229, 44, 42, 0.7);
 $secondary-color: rgba(251, 251, 251, 0.22);
 $white: rgba(250,250,250,.8);
 $turquoise: #06dbff;
@@ -26,7 +27,7 @@ body {
 		top: 0;
 		width: 100%;
 		height: 100%;
-		background: rgba(10,10,10,.8);
+		background:$dark-layer;
 		opacity: 0;
 		z-index: 100;
 		@include fade-out(3s);

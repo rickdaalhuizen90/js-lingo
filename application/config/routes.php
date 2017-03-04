@@ -58,7 +58,7 @@ $pages = array(
 	"register" 	=> "Register",
 	"login"		=> "Login",
 	"logout"	=> "Home/logout",
-	"lingo"		=> "Home",
+	"home"		=> "Home",
 );
 
 foreach($pages as $page => $controller) {

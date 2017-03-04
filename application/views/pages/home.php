@@ -8,7 +8,7 @@
 <section id="pop_up_model">
 	<div id="model_content">
 
-		<h3>Lingo</h3>
+		<div id="logo"></div>
 
 		<!-- Single Player section -->
 		<button id="single_player_button">Single Player</button>
@@ -20,11 +20,14 @@
 			]
 		);?>
 			<div id="single_player_content">
-				<h6>Options</h6>
-				<label for="option_letters">Aantal letters</label>
-				<input type="number" name="set_letter_count" id="set_letter_count" placeholder="Standaard is 5">
+				<h6>Game mode</h6>
+				<select name="set_game_mode" class="button secondary set_game_mode">
+				  	<option value="4x4">4 X 4</option>
+				  	<option value="5x5">5 X 5</option>
+				  	<option value="6x6">6 X 6</option>
+				</select>
 
-				<input type="submit" name="submit_popup" class="play_game button outline" value="play">
+				<input type="submit" name="submit_popup" class="play_game button" value="play">
 			</div>
 		</form> <!-- / popup_form -->
 	</div>
@@ -35,8 +38,9 @@
 	<nav>
 		<span id="open_nav">&#9776;</span>
 		<section id="scoreboard">
-			<span id="player_one_score" class="label base focus"></span>
-			<span id="player_two_score" class="label base success">3000</span>
+			<span id="score" class="label base success"></span>
+			<span id="time" class="label base warning">Time: 0</span>
+			<span id="lives" class="label base focus"></span>
 		</section>
 	</nav>
 

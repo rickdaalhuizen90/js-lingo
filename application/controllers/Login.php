@@ -9,7 +9,7 @@ class Login extends MY_Controller
         parent::__construct();
 
         // Load loginModel
-        if($this->load->model("loginModel", true))
+        if($this->load->model("LoginModel", true))
             $this->_db = new LoginModel;
     }
 
@@ -17,7 +17,7 @@ class Login extends MY_Controller
     {
         if(isset($_COOKIE["Player"]) || isset($_COOKIE["Guest"])) {         
             
-            return view_page("lingo");
+            return view_page("home");
             exit;            
         } else {
 
@@ -135,7 +135,7 @@ class Login extends MY_Controller
                 "img"       => $avatar,
             );
 
-        } elseif (isset($_POST["submit_login_guest"])) {
+        }elseif(isset($_POST["submit_login_guest"])) {
 
             // Payload for guest
             $cookie_name = "Guest";

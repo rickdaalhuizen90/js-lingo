@@ -28,6 +28,13 @@
     opacity: 1;
 }
 
+@mixin background-size($size) {
+	-webkit-background-size: $size;
+    -moz-background-size: $size;
+    -o-background-size: $size;
+    background-size: $size;
+}
+
 @mixin gradient-bg() {
     //background: linear-gradient(180deg, rgba(255,255,255,0) 60%, #fff),linear-gradient(70deg, #e0f1ff 32%, #fffae3);
     background: linear-gradient(180deg, rgba(66, 66, 66, 0) 60%, #5c945b), linear-gradient(70deg, #c7a1c7 32%, #45c3ca);
