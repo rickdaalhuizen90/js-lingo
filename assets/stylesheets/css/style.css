@@ -198,6 +198,15 @@ body {
   margin: 0;
   padding: 0; }
 
+#countdown {
+  position: absolute;
+  top: 40%;
+  width: 100%;
+  height: auto;
+  text-align: center;
+  font-size: 5em;
+  color: #f7f3f3; }
+
 #pop_up_model {
   display: none;
   position: fixed;
@@ -260,10 +269,11 @@ main.container {
     display: inline-flex;
     width: 100%;
     height: auto;
-    padding: 1.4em; }
+    padding: 1em; }
     main.container nav #open_nav {
       position: relative;
       top: 8px;
+      right: 5px;
       cursor: pointer;
       font-size: 2em;
       color: #f7f3f3; }
@@ -276,7 +286,9 @@ main.container {
       main.container nav #scoreboard #time,
       main.container nav #scoreboard #lives {
         margin-right: 1.2em;
-        padding: 10px 20px !important; }
+        padding: 10px 10px !important;
+        width: 120px;
+        color: #f7f3f3; }
   main.container #side_bar {
     position: fixed;
     z-index: 1;

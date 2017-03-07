@@ -9,6 +9,17 @@ body {
 	padding: 0;
 }
 
+// Countdown
+#countdown {
+	position: absolute;
+	top: 40%;
+	width: 100%;
+	height: auto;
+	text-align: center;
+	font-size: 5em;
+	color: $white;
+}
+
 // Pop-up Model
 #pop_up_model {
 	display: none;
@@ -84,11 +95,12 @@ main.container {
 		display: inline-flex;
 		width: 100%;
 		height: auto;
-		padding: 1.4em;
+		padding: 1em;
 
 		#open_nav {
 			position: relative;
 			top: 8px;
+			right: 5px;
 			cursor: pointer;
 			font-size: 2em;
     		color: $white;
@@ -104,7 +116,9 @@ main.container {
 			#time,
 			#lives {
 				margin-right: 1.2em;
-				padding: 10px 20px !important;
+				padding: 10px 10px !important;
+				width: 120px;
+				color: $white;
 			}
 		}
 	}

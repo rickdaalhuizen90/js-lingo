@@ -164,7 +164,7 @@ class Login extends MY_Controller
                 setcookie($cookie_name, $token, time() + (86400 * 7), "/");
 
                 // Redirect to admin area
-                redirect("lingo"); 
+                redirect("home"); 
                 exit;
             } else {
                 throw new Exception("Oops... Something went wrong, please try again.");

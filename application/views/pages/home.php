@@ -1,8 +1,12 @@
 <!-- Page Preloader -->
-<div id="preloader">
+<!-- <div id="preloader">
     <div id="spinner"></div>
-</div>
+</div> -->
 <!-- /Page Preloader -->
+
+<!-- Countdown -->
+<div id="countdown"></div>
+<!-- /Countdown -->
 
 <!--Pop-up model-->
 <section id="pop_up_model">
@@ -36,10 +40,10 @@
 <main class="container">
 	<!-- Navigation -->
 	<nav>
-		<span id="open_nav">&#9776;</span>
 		<section id="scoreboard">
+			<span id="open_nav">&#9776;</span>
 			<span id="score" class="label base success"></span>
-			<span id="time" class="label base warning">Time: 0</span>
+			<span id="time" class="label base warning"></span>
 			<span id="lives" class="label base focus"></span>
 		</section>
 	</nav>

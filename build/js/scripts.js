@@ -9,7 +9,7 @@ window.addEventListener('load', function(){
 		}, ms)
 	}
 
-	preload(1500);
+	//preload(1500);
 
 	// Get JWT
 	var token = {
@@ -47,6 +47,23 @@ window.addEventListener('load', function(){
 		}
    	}
 
+   	var logout = {
+
+		//Empty local storage
+		purgeLocalStorage: function(){
+			var logout_btn = document.getElementById("logout");
+			logout_btn.addEventListener('click',  function(){
+				localStorage.removeItem("done");
+			});
+		},
+
+		action: function(){
+			this.purgeLocalStorage();
+		}
+	}
+
+	logout.action();
+
 	// Sidebar object
 	var sidebar = {
 
@@ -63,15 +80,9 @@ window.addEventListener('load', function(){
 			openNav.addEventListener("click", function(){
 				sideBar.style.width = "250px";
 			})
-		}
-	}
+		},
 
-	sidebar.toggle();
-
-	// User object
-	var user = {
-
-		// Profile
+		// User profile
 	    profile: function () {
 	    	var obj = token.parseJwt(document.cookie);
 	        return {
@@ -85,62 +96,22 @@ window.addEventListener('load', function(){
 	    },
 
 	  	// Show user profile in sidebar
-	  	renderToPage: function(){
+	  	render: function(){
+	  		var obj = cookies.getCookie("game_config");
 	  		document.getElementById('avatar').style.backgroundImage = "url(" + this.profile().avatar + ")";
 			document.getElementById('username').innerHTML = "Player: " + this.profile().name;
+			document.getElementById("room_name").innerHTML = "Room Name: " + obj.room_name;
 	  	}
 	}
 
-	user.renderToPage();
-
-	// Show player scores
-	var scoreboard = {
-
-		playerOne: function(){
-			return {
-				score: 2800,
-				lives: 1
-			}
-		},
-
-		// Time
-		time: function(){
-			// setTimeout
-		},
-
-		// Show player scores on page
-		renderToPage: function(){
-			var score = document.getElementById("score");
-			var lives = document.getElementById("lives");
-
-			score.innerHTML = "Score: " + this.playerOne().score;
-			lives.innerHTML = "Lives: " + this.playerOne().lives;
-		}
-	}
-
-	scoreboard.renderToPage();
+	sidebar.toggle();
+	sidebar.render();
 
 	// Pop-up for when the game is loaded
 	var popUpModel = {
 
 		content: document.getElementById("pop_up_model"),
 		play_btn: document.getElementsByClassName("play_game"),
-
-		render: function(){
-			var model_content = this.content;
-			var play = this.play_btn;
-
-			if(localStorage["done"]){
-				model_content.style.display = "none";
-			} else {	
-				model_content.style.display = "block";
-			}
-
-			play[0].addEventListener('click',  function(){
-				localStorage['done'] = true;
-				model_content.style.display = "none";
-			});
-		},
 
 	    // Toggle Content 
 	    toggle: function(){
@@ -161,47 +132,111 @@ window.addEventListener('load', function(){
 	    		}
 	    	});
 	    },
-	}
 
-   	popUpModel.render();
-   	popUpModel.toggle();
+	    render: function(){
+			var model_content = this.content;
+			var play = this.play_btn;
 
-	var roomOptions = {
+			if(localStorage["done"]){
+				model_content.style.display = "none";
+			} else {	
+				model_content.style.display = "block";
+			}
 
-		// Get Room name
-	    getRoomName: function() {
-		    return cookies.getCookie("game_config").room_name;
-		},
-
-	    renderRoomName: function(){
-	    	document.getElementById("room_name").innerHTML = "Room Name: " + this.getRoomName();
-	    }
-	}
-
-	roomOptions.renderRoomName();
-
-	var logout = {
-
-		//Empty local storage
-		purgeLocalStorage: function(){
-			var logout_btn = document.getElementById("logout");
-			logout_btn.addEventListener('click',  function(){
-				localStorage.removeItem("done");
+			play[0].addEventListener('click',  function(){
+				localStorage['done'] = true;
 			});
 		},
 	}
 
-	logout.purgeLocalStorage();
+   	popUpModel.toggle();
+   	popUpModel.render();
+
+	// Show player scores
+	var scoreboard = {
+
+		gameObject:  function(){
+			return cookies.getCookie("game_current");
+		},
+
+		// Show player lives on page
+		lives: function(){
+			var lives = document.getElementById("lives");
+			var obj = this.gameObject();
+
+			lives.innerHTML = "Lives: " + obj.lives;
+		},
+
+		// Show timer on page
+		time: function(){
+		    var el = document.getElementById("time");
+		    var counter = 120;
+		    var minus = "";
+		    
+		    el.innerHTML = "Time: " + counter;
+
+		    var interval = setInterval(function(){
+		      el.innerHTML = "Time: " + minus + counter--;
+
+		      	if(counter < 10) minus = "0";
+		      	if(counter < 0){
+		        	clearInterval(interval);
+		        	lingo.gameOver(el);
+
+		     	}
+		    }, 1000);
+		},
+
+		// Show player score on page
+		score: function(){
+			var score = document.getElementById("score");
+			score.innerHTML = "Score: 280";
+		},
+
+		render: function(){
+			this.score();
+			this.time();
+			this.lives();
+		}
+	}
+
+	scoreboard.render();
 
 	var lingo = {
 
-		// get game mode
-		game_mode: function(){
+		gameObject: function(){
 			console.log(cookies.getCookie("game_current"));
+			return cookies.getCookie("game_current");
+		},
+
+		startGame: function(){
+			
+			if(localStorage['done'] = true){
+				var randomWord = this.randomWord();
+				console.log(randomWord);
+			};
+
+			// initialize user's input to submit a word
+			// 
+		},
+
+		randomWord: function(){
+			// Get random word
+			return this.gameObject().word;
+		},
+
+		// Game over
+		gameOver: function(){
+			var el = document.getElementById("time");
+			el.innerHTML = "Game over";
+			// Stop game
+			// Show game over on screen.
+			// save score (see scoreboard)
 		}
+
 		// word correct
 		// word incorrect
 	}
 
-	lingo.game_mode();
+	lingo.startGame();
 });
