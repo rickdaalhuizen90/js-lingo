@@ -49,7 +49,7 @@
 	</nav>
 
 	<!-- Playboard -->
-	<section id="play_board">
+	<section id="playboard_grid">
 		<?php if(in_array("guest", $scopes)) echo "I AM A GUEST!"; ?>
 	</section>
 

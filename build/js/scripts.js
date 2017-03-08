@@ -212,8 +212,13 @@ window.addEventListener('load', function(){
 		startGame: function(){
 			
 			if(localStorage['done'] = true){
+
+				// Init random word
 				var randomWord = this.randomWord();
 				console.log(randomWord);
+
+				// Create grid for playboard
+				this.drawGrid();
 			};
 
 			// initialize user's input to submit a word
@@ -223,6 +228,27 @@ window.addEventListener('load', function(){
 		randomWord: function(){
 			// Get random word
 			return this.gameObject().word;
+		},
+
+		drawGrid: function(){
+			var grid 			= document.getElementById("playboard_grid");
+			var row_count 		= 6;
+			var column_count 	= cookies.getCookie("game_config").game_mode;
+
+			// Create rows
+			for(var a = 1; a < row_count; a++){
+				var row = document.createElement("div");
+				row.className = "playboard_row row_" + a;
+				grid.appendChild(row);
+
+				// Create columns
+				for(var b = 0; b < column_count; b++){
+					var column 	= document.createElement("div"); 
+					column.className = "col col-4";
+
+					document.getElementsByClassName("row_" + a)[0].appendChild(column);
+				}
+			}
 		},
 
 		// Game over
