@@ -6,6 +6,18 @@
 	color: $color;
 }
 
+@mixin btn-shadow($opacity){
+	-webkit-box-shadow: inset 3px 10px 16px -6px rgba(0, 0, 0, $opacity);
+	-moz-box-shadow: inset 3px 10px 16px -6px rgba(0, 0, 0, $opacity);
+	box-shadow: inset 3px 10px 16px -6px rgba(0, 0, 0, $opacity);
+}
+
+@mixin nav-shadow($opacity){
+	-webkit-box-shadow: 2px 3px 3px 0px rgba(41, 41, 41, $opacity);
+    -moz-box-shadow: 2px 3px 3px 0px rgba(41, 41, 41, $opacity);
+    box-shadow: 2px 3px 3px 0px rgba(41, 41, 41, $opacity);
+}
+
 @mixin box-shadow($opacity) {
 	-webkit-box-shadow: 0px 0px 7px 2px rgba(0,0,0,$opacity);
 	-moz-box-shadow: 0px 0px 7px 2px rgba(0,0,0,$opacity);

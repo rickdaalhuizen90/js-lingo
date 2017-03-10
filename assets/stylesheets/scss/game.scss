@@ -7,6 +7,9 @@ body {
 	background: $light-blue;
 	margin: 0;
 	padding: 0;
+	// Menu animation
+	transition: 0.3s;
+	overflow:hidden;
 }
 
 // Countdown
@@ -29,6 +32,7 @@ body {
 	width: 100%;
 	height: 100%;
 	background: $dark-layer;
+	z-index: 100;
 
 	#model_content {
 		display: block;
@@ -36,9 +40,7 @@ body {
 		padding: 3em 2em;
 		width: 100%;
 		max-width: 500px;
-		border-radius: 0.3em;
-		background: $white-transparent;
-		@include box-shadow(0.3);
+		background: none;
 
 		#logo {
 			display: block;
@@ -54,6 +56,7 @@ body {
 		h6 {
 			text-align: center;
 			text-transform: uppercase;
+			color: $white;
 		}
 
 		button {
@@ -89,106 +92,154 @@ main.container {
     margin: 0 auto;
     height: 100vh;
     width: 100%;
-    max-width: 800px;
+    max-width: 550px;
 
-	nav {
-		display: inline-flex;
-		width: 100%;
-		height: auto;
-		padding: 1em;
+	#scoreboard {
+	    display: inline-block;
+	    margin: 0 auto;
+	    padding: 1em;
+	    width: 100%;
+	    text-align: center;
 
-		#open_nav {
-			position: relative;
-			top: 8px;
-			right: 5px;
-			cursor: pointer;
-			font-size: 2em;
-    		color: $white;
+		#score,
+		#time,
+		#lives {
+			margin-right: 1.2em;
+			padding: 10px 10px !important;
+			width: 25%;
+			color: $white;
 		}
+	}
 
-		#scoreboard {
-		    display: block;
+	#toggle_nav {
+	    position: relative;
+	    top: 10%;
+	    background-color: #0579c7;
+	    round-color: #ff4081;
+	    border-radius: 100%;
+	    width: 80px;
+	    height: 80px;
+	    text-align: center;
+	    margin: auto;
+	    padding-top: 28px !important;
+	    padding: 1em;
+	    color: #fff;
+	    cursor: pointer;
+	   	@include nav-shadow(0.3); 
+	}
+	
+	//Playboard
+	.playboard_row{
+	    height: auto;
+	    text-align: center;
+
+	    .col-4 {
+	    	position: relative;
 		    margin: 0 auto;
-		    width: 100%;
-		    text-align: center;
+		    height: 5em;
+		    border: 1px solid $white;
+			border-radius: 5px;
+		    display: inline-flex;
+		    width: 5em;
 
-			#score,
-			#time,
-			#lives {
-				margin-right: 1.2em;
-				padding: 10px 10px !important;
-				width: 120px;
-				color: $white;
+		    p {
+		    	position: absolute;
+			    text-align: center;
+			    width: 100%;
+			    height: 100%;
+			    padding-top: 35%;
+			    font-size: 3em;
+			    background: #4092ce;
+			    font-family: sans-serif;
+			    border-radius: 15px;
+			    color: #fff;
 			}
 		}
 	}
 
-	#side_bar {
-		position: fixed;
-	    z-index: 1;
-	    top: 0;
-	    left: 0;
-	    background-color: $dark-blue;
-		padding: 5px 0px;
-	    height: 100%;
-	    width: 0;
-	    color: $white;
-	    overflow-x: hidden;
-	    transition: 0.3s;
-
-		#close_nav {
+	#playboard_user_input{
+		#playboard_form{
 			display: block;
-			padding: 15px;
-			text-align: right;
+			margin: 0 auto;
+			width: 21em !important;
+			background: rgba(56, 56, 101, 0.13) !important;
+			border: 1px solid $white;
+			color: $white;
+			text-transform: uppercase;
+			text-align: center;
+			letter-spacing: 0.2em;
+		}
+
+		#playboard_submit{
+			display: block;
+			margin: 5px auto;
+			width: 21em;
+		}
+	}
+
+	#error_message {
+		display: none;
+	    margin: 15px auto;
+	    padding: 5px;
+	    background: rgba(239, 5, 25, 0.62);
+	    width: 20em;
+	    text-align: center;
+	    color: #fff;
+	    border-radius: 5px;
+	}
+}
+
+#menu {
+	position: fixed;
+	width: 100%;
+	height: 500px !important;
+	background-color: $dark-blue;
+	padding: 5px 0px;
+	color: $white;
+	z-index: -1;
+
+	@include btn-shadow(0.5);
+
+	#profile {
+		width: 250px;
+		margin: 55px auto;
+		padding: 15px;
+		text-align: center;
+		p {margin-bottom: 5px;} // style reset
+
+		#avatar {
+			position: relative;
+			bottom: 15px;
+		    width: 110px;
+		    height: 110px;
+		    display: block;
+		    margin: 10px auto;
+		    border-radius: 100%;
+		    background-color: #fff;
+		    background-size: cover;
+		    background-position: center;
+		}
+
+		#username,
+		#room_name {
+		    padding: 3px 15px;
+		    //border: 1px solid #fff;
+		    color: $white;
+		    transition: 0.3s;
+		    font-size: 12px !important;
+		    border-radius: 3px;
+		    background: rgba(54, 54, 234, 0.78);
+		}
+
+		#logout {
+			position: relative;
+			top: 1em;
 			text-decoration: none;
-			font-size: 2.5em;
-			color: #fff;
-		}
+			color: $white;
 
-		#profile {
-			width: 250px;
-			padding: 15px;
-
-			p {margin-bottom: 5px;} // style reset
-
-			#avatar {
-				position: relative;
-				bottom: 15px;
-			    width: 110px;
-			    height: 110px;
-			    display: block;
-			    margin: 10px auto;
-			    border-radius: 100%;
-			    background-color: #fff;
-			    background-size: cover;
-			    background-position: center;
-			}
-
-			#username,
-			#room_name {
-			    padding: 3px 15px;
-			    //border: 1px solid #fff;
-			    color: $white;
-			    transition: 0.3s;
-			    font-size: 12px !important;
-			    border-radius: 3px;
-			    background: rgba(54, 54, 234, 0.78);
-			}
-
-			#logout {
-				text-decoration: none;
-				color: $white;
-
-				&:hover {
-					color: #eee;
-				}
+			&:hover {
+				color: #eee;
 			}
 		}
-
-	}	
-	// Responsive
-	@media screen and (max-height: 450px) {
-	  	#side_bar {padding-top: 15px;}
-	  	#side_bar a {font-size: 18px;}
 	}
 }

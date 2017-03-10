@@ -70,15 +70,14 @@ window.addEventListener('load', function(){
 		// Toggle sidebar
 		toggle: function(){
 			var sideBar = document.getElementById("side_bar");
-			var openNav = document.getElementById("open_nav");
-			var closeNav = document.getElementById("close_nav");
+			var toggle = document.getElementById("toggle_nav");
 
-			closeNav.addEventListener("click", function(){
-				sideBar.style.width = "0";
-			});
-
-			openNav.addEventListener("click", function(){
-				sideBar.style.width = "250px";
+			toggle.addEventListener("click", function(){
+				if(document.body.style.marginTop === "-500px"){
+					document.body.style.marginTop = "0px";
+				}else {
+					document.body.style.marginTop = "-500px";
+				}
 			})
 		},
 
@@ -155,21 +154,19 @@ window.addEventListener('load', function(){
 	// Show player scores
 	var scoreboard = {
 
-		gameObject:  function(){
-			return cookies.getCookie("game_current");
-		},
+		gameObject:  cookies.getCookie("game_current"),
 
 		// Show player lives on page
 		lives: function(){
 			var lives = document.getElementById("lives");
-			var obj = this.gameObject();
+			var obj = this.gameObject;
 
 			lives.innerHTML = "Lives: " + obj.lives;
 		},
 
 		// Show timer on page
 		time: function(){
-		    var el = document.getElementById("time");
+		    var el 	= document.getElementById("time");
 		    var counter = 120;
 		    var minus = "";
 		    
@@ -204,10 +201,8 @@ window.addEventListener('load', function(){
 
 	var lingo = {
 
-		gameObject: function(){
-			console.log(cookies.getCookie("game_current"));
-			return cookies.getCookie("game_current");
-		},
+		gameObject: cookies.getCookie("game_current"),
+		gameConfig: cookies.getCookie("game_config"),
 
 		startGame: function(){
 			
@@ -219,24 +214,25 @@ window.addEventListener('load', function(){
 
 				// Create grid for playboard
 				this.drawGrid();
-			};
+				this.playboardForm();
 
-			// initialize user's input to submit a word
-			// 
+				// On form submit
+				this.run();
+			};
 		},
 
 		randomWord: function(){
 			// Get random word
-			return this.gameObject().word;
+			return this.gameObject.word;
 		},
 
 		drawGrid: function(){
 			var grid 			= document.getElementById("playboard_grid");
-			var row_count 		= 6;
-			var column_count 	= cookies.getCookie("game_config").game_mode;
+			var row_count 		= this.gameConfig.game_mode;
+			var column_count 	= this.gameConfig.game_mode;
 
 			// Create rows
-			for(var a = 1; a < row_count; a++){
+			for(var a = 1; a <= row_count; a++){
 				var row = document.createElement("div");
 				row.className = "playboard_row row_" + a;
 				grid.appendChild(row);
@@ -244,11 +240,72 @@ window.addEventListener('load', function(){
 				// Create columns
 				for(var b = 0; b < column_count; b++){
 					var column 	= document.createElement("div"); 
-					column.className = "col col-4";
+					column.className = "col col-4 playboard_column";
 
 					document.getElementsByClassName("row_" + a)[0].appendChild(column);
 				}
 			}
+		},
+
+		playboardForm: function(){
+			var form = document.getElementById("playboard_form");
+			var max = this.gameConfig.game_mode;
+			form.max = parseInt(max);
+		},
+
+		validateUserInput: function(){	
+			var input_value = document.getElementById("playboard_form").value;
+			var str_length 	= this.gameConfig.game_mode;
+			var regex 		= /^[a-zA-Z]+$/;
+			var errorMsg 	= document.getElementById("error_message");
+
+			if(	input_value != "" && 
+				input_value.length === str_length &&  
+				input_value.match(regex)
+			){
+				return input_value;
+			} else {
+				errorMsg.style.display = "block";
+				errorMsg.innerHTML = "Oops input value is not valid";
+
+				setInterval(function(){
+					errorMsg.style.display = "none";
+					errorMsg.innerHTML = "";
+				},5000);
+
+				return false;
+			}
+		},
+
+		splitUserInput: function(){
+			var input_value_validated = this.validateUserInput();
+			var word_array = input_value_validated.split("");
+			var column = document.getElementsByClassName("playboard_column");
+
+			for(var i = 0; i < word_array.length; i++){
+				setTimeout(function(i) {    
+				    column[i].innerHTML += "<p>" + word_array[i] + "</p>";
+				}, i * 500, i);
+			}
+
+			return true;
+		},
+
+		checkWord: function(){
+			// check if word match
+		},
+
+		run: function(){
+			var submit = document.getElementById("playboard_submit");
+			submit.addEventListener('click', function(){
+				
+				if(lingo.validateUserInput() && lingo.splitUserInput()){
+					console.log('true');	
+					//lingo.checkWord();
+				} else {
+					console.log('false');
+				}
+			});
 		},
 
 		// Game over
@@ -259,9 +316,6 @@ window.addEventListener('load', function(){
 			// Show game over on screen.
 			// save score (see scoreboard)
 		}
-
-		// word correct
-		// word incorrect
 	}
 
 	lingo.startGame();

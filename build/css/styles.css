@@ -337,6 +337,16 @@ main.container {
         color: #f7f3f3; }
         main.container #side_bar #profile #logout:hover {
           color: #eee; }
+  main.container .playboard_row {
+    height: auto;
+    text-align: center; }
+    main.container .playboard_row .col-4 {
+      margin: 0 auto;
+      width: 33.33333%;
+      height: 10em;
+      border: 1px solid red;
+      display: inline-flex;
+      width: 10em; }
   @media screen and (max-height: 450px) {
     main.container #side_bar {
       padding-top: 15px; }

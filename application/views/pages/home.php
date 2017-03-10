@@ -38,42 +38,43 @@
 </section>
 
 <main class="container">
-	<!-- Navigation -->
-	<nav>
-		<section id="scoreboard">
-			<span id="open_nav">&#9776;</span>
-			<span id="score" class="label base success"></span>
-			<span id="time" class="label base warning"></span>
-			<span id="lives" class="label base focus"></span>
-		</section>
-	</nav>
+	<!-- Scoreboard -->
+	<section id="scoreboard" class="col row auto">
+		<div id="score" class="col col-4 label base success"></div>
+		<div id="time" class="col col-4 label base warning"></div>
+		<div id="lives" class="col col-4 label base focus"></div>
+	</section>
 
 	<!-- Playboard -->
-	<section id="playboard_grid">
-		<?php if(in_array("guest", $scopes)) echo "I AM A GUEST!"; ?>
-	</section>
+	<section id="playboard_grid"></section>
+
+	<span id="playboard_user_input">
+		<input id="playboard_form" type="text" min="0">
+		<button id="playboard_submit">Submit</button>
+	</span>
 
 	<!-- User options & input -->
 	<section id="user_options"></section>
 	<section id="user_input"></section>
 
-	<!-- Sidebar -->
-	<aside id="side_bar">
-		<!-- Close button -->
-		<a href="javascript:void(0)" id="close_nav">&times;</a>
-		
-		<section id="profile">
-			<div id="avatar"></div>
-			<p id="username">User: <?=$username?></p>
-			<p id="room_name">Room: sjx23424</p>
+	<!-- Error message -->
+	<p id="error_message"></p>
 
-			<a href="logout" id="logout">Logout</a>
-		</section>
-		<section id="spectators">
-			
-		</section>
-	</aside>
+	<!-- Menu button -->
+	<div id="toggle_nav">menu</div>
 </main>
+
+
+<!-- Menu -->
+<div id="menu">
+	<section id="profile">
+		<div id="avatar"></div>
+		<p id="username">User: <?=$username?></p>
+		<p id="room_name">Room: sjx23424</p>
+
+		<a href="logout" id="logout">Logout</a>
+	</section>
+</div>
 
 <!-- SCRIPTS -->
 <script id="del" src="<?php echo base_url('build/js/scripts.js') ?>"></script>

@@ -196,7 +196,9 @@ body {
 body {
   background: rgba(7, 70, 170, 0.8);
   margin: 0;
-  padding: 0; }
+  padding: 0;
+  transition: 0.3s;
+  overflow: hidden; }
 
 #countdown {
   position: absolute;
@@ -214,18 +216,15 @@ body {
   top: 0;
   width: 100%;
   height: 100%;
-  background: rgba(10, 10, 10, 0.8); }
+  background: rgba(10, 10, 10, 0.8);
+  z-index: 100; }
   #pop_up_model #model_content {
     display: block;
     margin: 3em auto;
     padding: 3em 2em;
     width: 100%;
     max-width: 500px;
-    border-radius: 0.3em;
-    background: rgba(255, 255, 255, 0.8);
-    -webkit-box-shadow: 0px 0px 7px 2px rgba(0, 0, 0, 0.3);
-    -moz-box-shadow: 0px 0px 7px 2px rgba(0, 0, 0, 0.3);
-    box-shadow: 0px 0px 7px 2px rgba(0, 0, 0, 0.3); }
+    background: none; }
     #pop_up_model #model_content #logo {
       display: block;
       margin: 0 auto;
@@ -240,7 +239,8 @@ body {
       background-size: contain; }
     #pop_up_model #model_content h6 {
       text-align: center;
-      text-transform: uppercase; }
+      text-transform: uppercase;
+      color: #f7f3f3; }
     #pop_up_model #model_content button {
       display: block;
       margin: 15px auto;
@@ -264,84 +264,127 @@ main.container {
   margin: 0 auto;
   height: 100vh;
   width: 100%;
-  max-width: 800px; }
-  main.container nav {
-    display: inline-flex;
+  max-width: 550px; }
+  main.container #scoreboard {
+    display: inline-block;
+    margin: 0 auto;
+    padding: 1em;
     width: 100%;
-    height: auto;
-    padding: 1em; }
-    main.container nav #open_nav {
-      position: relative;
-      top: 8px;
-      right: 5px;
-      cursor: pointer;
-      font-size: 2em;
+    text-align: center; }
+    main.container #scoreboard #score,
+    main.container #scoreboard #time,
+    main.container #scoreboard #lives {
+      margin-right: 1.2em;
+      padding: 10px 10px !important;
+      width: 25%;
       color: #f7f3f3; }
-    main.container nav #scoreboard {
-      display: block;
+  main.container #toggle_nav {
+    position: relative;
+    top: 10%;
+    background-color: #0579c7;
+    round-color: #ff4081;
+    border-radius: 100%;
+    width: 80px;
+    height: 80px;
+    text-align: center;
+    margin: auto;
+    padding-top: 28px !important;
+    padding: 1em;
+    color: #fff;
+    cursor: pointer;
+    -webkit-box-shadow: 2px 3px 3px 0px rgba(41, 41, 41, 0.3);
+    -moz-box-shadow: 2px 3px 3px 0px rgba(41, 41, 41, 0.3);
+    box-shadow: 2px 3px 3px 0px rgba(41, 41, 41, 0.3); }
+  main.container .playboard_row {
+    height: auto;
+    text-align: center; }
+    main.container .playboard_row .col-4 {
+      position: relative;
       margin: 0 auto;
-      width: 100%;
-      text-align: center; }
-      main.container nav #scoreboard #score,
-      main.container nav #scoreboard #time,
-      main.container nav #scoreboard #lives {
-        margin-right: 1.2em;
-        padding: 10px 10px !important;
-        width: 120px;
-        color: #f7f3f3; }
-  main.container #side_bar {
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    left: 0;
-    background-color: rgba(15, 45, 100, 0.9);
-    padding: 5px 0px;
-    height: 100%;
-    width: 0;
+      height: 5em;
+      border: 1px solid #f7f3f3;
+      border-radius: 5px;
+      display: inline-flex;
+      width: 5em; }
+      main.container .playboard_row .col-4 p {
+        position: absolute;
+        text-align: center;
+        width: 100%;
+        height: 100%;
+        padding-top: 35%;
+        font-size: 3em;
+        background: #4092ce;
+        font-family: sans-serif;
+        border-radius: 15px;
+        color: #fff; }
+  main.container #playboard_user_input #playboard_form {
+    display: block;
+    margin: 0 auto;
+    width: 21em !important;
+    background: rgba(56, 56, 101, 0.13) !important;
+    border: 1px solid #f7f3f3;
     color: #f7f3f3;
-    overflow-x: hidden;
-    transition: 0.3s; }
-    main.container #side_bar #close_nav {
+    text-transform: uppercase;
+    text-align: center;
+    letter-spacing: 0.2em; }
+  main.container #playboard_user_input #playboard_submit {
+    display: block;
+    margin: 5px auto;
+    width: 21em; }
+  main.container #error_message {
+    display: none;
+    margin: 15px auto;
+    padding: 5px;
+    background: rgba(239, 5, 25, 0.62);
+    width: 20em;
+    text-align: center;
+    color: #fff;
+    border-radius: 5px; }
+
+#menu {
+  position: fixed;
+  width: 100%;
+  height: 500px !important;
+  background-color: rgba(15, 45, 100, 0.9);
+  padding: 5px 0px;
+  color: #f7f3f3;
+  z-index: -1;
+  -webkit-box-shadow: inset 3px 10px 16px -6px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: inset 3px 10px 16px -6px rgba(0, 0, 0, 0.5);
+  box-shadow: inset 3px 10px 16px -6px rgba(0, 0, 0, 0.5); }
+  #menu #profile {
+    width: 250px;
+    margin: 55px auto;
+    padding: 15px;
+    text-align: center; }
+    #menu #profile p {
+      margin-bottom: 5px; }
+    #menu #profile #avatar {
+      position: relative;
+      bottom: 15px;
+      width: 110px;
+      height: 110px;
       display: block;
-      padding: 15px;
-      text-align: right;
+      margin: 10px auto;
+      border-radius: 100%;
+      background-color: #fff;
+      background-size: cover;
+      background-position: center; }
+    #menu #profile #username,
+    #menu #profile #room_name {
+      padding: 3px 15px;
+      color: #f7f3f3;
+      transition: 0.3s;
+      font-size: 12px !important;
+      border-radius: 3px;
+      background: rgba(54, 54, 234, 0.78); }
+    #menu #profile #logout {
+      position: relative;
+      top: 1em;
       text-decoration: none;
-      font-size: 2.5em;
-      color: #fff; }
-    main.container #side_bar #profile {
-      width: 250px;
-      padding: 15px; }
-      main.container #side_bar #profile p {
-        margin-bottom: 5px; }
-      main.container #side_bar #profile #avatar {
-        position: relative;
-        bottom: 15px;
-        width: 110px;
-        height: 110px;
-        display: block;
-        margin: 10px auto;
-        border-radius: 100%;
-        background-color: #fff;
-        background-size: cover;
-        background-position: center; }
-      main.container #side_bar #profile #username,
-      main.container #side_bar #profile #room_name {
-        padding: 3px 15px;
-        color: #f7f3f3;
-        transition: 0.3s;
-        font-size: 12px !important;
-        border-radius: 3px;
-        background: rgba(54, 54, 234, 0.78); }
-      main.container #side_bar #profile #logout {
-        text-decoration: none;
-        color: #f7f3f3; }
-        main.container #side_bar #profile #logout:hover {
-          color: #eee; }
-  @media screen and (max-height: 450px) {
-    main.container #side_bar {
-      padding-top: 15px; }
-    main.container #side_bar a {
-      font-size: 18px; } }
+      color: #f7f3f3; }
+      #menu #profile #logout:hover {
+        color: #eee; }
 
 footer {
   font-size: 13px;
