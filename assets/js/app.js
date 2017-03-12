@@ -194,14 +194,12 @@ window.addEventListener('load', function(){
 			var score = document.getElementById("score");
 			var obj = this.gameObject;
 
-			console.log(obj);
-
 			score.innerHTML = "Score: " + obj.score;
 		},
 
 		render: function(){
 			this.score();
-			this.time(0,1);
+			this.time(3,0);
 			this.lives();
 		}
 	}
@@ -218,8 +216,8 @@ window.addEventListener('load', function(){
 			if(localStorage['done'] = true){
 
 				// Init random word
-				var randomWord = this.randomWord();
-				console.log(randomWord);
+				var randomWord = this.gameObject.word;
+				console.log("Random word: " + randomWord);
 
 				// Create grid for playboard
 				this.drawGrid();
@@ -228,11 +226,6 @@ window.addEventListener('load', function(){
 				// On form submit
 				this.run();
 			};
-		},
-
-		randomWord: function(){
-			// Get random word
-			return this.gameObject.word;
 		},
 
 		drawGrid: function(){
@@ -275,8 +268,16 @@ window.addEventListener('load', function(){
 				return input_value;
 			} else {
 				errorMsg.style.display = "block";
-				errorMsg.innerHTML = "Oops input value is not valid";
 
+				if(input_value.length !== str_length) {
+					var msg = "Word should be " + str_length + " letters long!";
+				} else {
+					var msg = "Oops input value is not valid";
+				}
+
+				// Return error message.
+				errorMsg.innerHTML = msg;
+				
 				setInterval(function(){
 					errorMsg.style.display = "none";
 					errorMsg.innerHTML = "";
@@ -286,40 +287,93 @@ window.addEventListener('load', function(){
 			}
 		},
 
-		splitUserInput: function(){
-			
-			var letters 	= this.validateUserInput().split("");
-			var column 		= document.getElementsByClassName("playboard_column");
+		splitWord: function(word){
+			// Check if parameter is defined.
+			if(word == null) return;
+
+			var letters 	= word.split("");
+			var splitted 	= [];
 
 			for(var i = 0; i < letters.length; i++)
-				column[i].innerHTML += "<p>" + letters[i] + "</p>";
+				splitted.push(letters[i]);
 
-			return letters;
+			return splitted;
+		},
+
+		insertLettersInGrid: function(row){
+
+			var user_input 	= this.validateUserInput();
+			var letters 	= this.splitWord(user_input);
+
+			if(row < letters.length){
+				var row_el 		= document.getElementsByClassName("playboard_row")[row];
+				var column 		= row_el.getElementsByClassName("playboard_column");
+
+				// Insert letters in the right row and columns.
+				for(var i = 0; i < letters.length; i++)	
+					column[i].innerHTML += "<p>" + letters[i] + "</p>";
+
+				return true;
+			}else{
+				console.log("Game over!");
+				document.getElementById("time").innerHTML = "Game over!";
+			}
+
+			return false;
 		},
 
 		checkWord: function(row){
-			var letters 		= this.splitUserInput();
-			var input_value 	= this.validateUserInput();
-			var column_count 	= this.gameConfig.game_mode;
-			var column_value 	= [];
+			// Random word & input value
+			var word 			= this.gameObject.word;
+			var input_value 	= document.getElementById("playboard_form").value;
+			
+			// Splitted random word & input value
+			var splitted_word 	= this.splitWord(word);
+			var splitted_input  = this.splitWord(input_value);
+
+			// Grid elements
+			var row_el 		= document.getElementsByClassName("playboard_row")[row - 1];
+			var column 		= row_el.getElementsByClassName("playboard_column");
 
 			// Check if variables are set and true.
-			if(letters && input_value && column_count){
+			if(splitted_word != null && splitted_input != null){
 
-				// Get input value's from column grid and return it in an array.
-				for(var i = 0; column_count > i; i++){
-					var column 	= document.getElementsByClassName("playboard_column")[i];
-					var text 	= column.getElementsByTagName("p")[0].innerHTML;
-
-					column_value.push(text);
+				// Debugging::::
+				var obj = {
+					input: splitted_input,
+					word: splitted_word
 				}
+				console.log(obj);
 
-				// Check if column value match with input value;
-				console.log(column_value);
-				
-				//setTimeout(function(i){    
-					// check if word match
-				//}, i * 500, i);
+				// Check if length matches.
+				if(splitted_word.length === splitted_input.length){
+
+					for(var i = 0; i < splitted_input.length; i++){
+						
+						setTimeout(function(i){    
+
+							// Check if a letter match exsist and match the right position(returns -1 on false)
+							if(	splitted_word.indexOf(splitted_input[i]) >= 0 &&
+								splitted_word[i] === splitted_input[i]
+							){
+								
+								column[i].getElementsByTagName("p")[0].style.backgroundColor = "#2bec7f";
+								console.log(splitted_input[i] + "  exsist and match the right position");
+
+							// Check if a letter exsists
+							}else if(splitted_word.indexOf(splitted_input[i]) >= 0){
+							
+								column[i].getElementsByTagName("p")[0].style.backgroundColor = "#e2e23e";
+								console.log(splitted_input[i] + " exsist");
+
+							// Letter does not exsist
+							} else {
+								console.log(splitted_input[i] + " does not exsists");
+							}
+
+						}, i * 500, i);			
+					}		
+				}
 			}
 
 			return false;
@@ -327,20 +381,16 @@ window.addEventListener('load', function(){
 
 		run: function(){
 			var submit 	= document.getElementById("playboard_submit");
-			var row 	= 1;
+			var row 	= 0;
 			
 			submit.addEventListener('click', function(){
 
-				if(	lingo.validateUserInput() && 
-					lingo.splitUserInput() != null
+				if(	lingo.validateUserInput() &&
+					lingo.insertLettersInGrid(row++) != false
 				){	
 					// Check if user input match word.	
-					lingo.checkWord(row++);
-						// console.log(row++);
-						//row++;
-				} else {
-					console.log('false');
-				}
+					lingo.checkWord(row);
+				} 
 			});
 		},
 
