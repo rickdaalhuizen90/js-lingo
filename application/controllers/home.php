@@ -49,7 +49,7 @@ class Home extends MY_Controller
         $count  = (int)$val[0];
 
         // Check if game mode is 4x4, 5x5 or 6x6.
-        if(is_int($count) && $count > 3 && $count < 6) {
+        if(is_int($count) && $count > 3 && $count < 7) {
             // Return the validated user input.
             return (object) array(
                 "game_mode" => $count
@@ -86,13 +86,14 @@ class Home extends MY_Controller
         return false;
     }
 
-    private function _game_current($lives = false, $round = false, $word = false)
+    private function _game_current($lives = false, $round = false, $score = false, $word = false)
     {
         // Configure the current game session with lives, rounds and a random word.
-        if($lives && $round && $word){
+        if(isset($lives) && isset($round) && isset($score) && isset($word)){
             return json_encode(array(
                 "lives" => $lives,
                 "round" => $round,
+                "score" => $score,
                 "word"  => $word
             ), JSON_FORCE_OBJECT);
         }
@@ -119,7 +120,7 @@ class Home extends MY_Controller
             // Get a random word from the database.
             $result = $this->_db->get_random_word($game_mode);
 
-            if($result){
+            if($result && $result != null){
                 // Return a random word. 
                 return $result[0]->words;
             } else {
@@ -137,7 +138,7 @@ class Home extends MY_Controller
             // Set game_mode, game_config & game_current (return false on failure).
             $game_mode      = $this->_popup_user_input()->game_mode;
             $game_config    = $this->_game_config($game_mode);
-            $game_current   = $this->_game_current(3, 1, $this->_random_word($game_mode));
+            $game_current   = $this->_game_current(3, 1, 0, $this->_random_word($game_mode));
 
             // Check if game_mode, game_config and game_current are all set.
             if($game_mode && $game_config && $game_current) {

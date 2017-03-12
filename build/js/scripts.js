@@ -165,34 +165,43 @@ window.addEventListener('load', function(){
 		},
 
 		// Show timer on page
-		time: function(){
+		time: function(minutes, seconds){
 		    var el 	= document.getElementById("time");
-		    var counter = 120;
-		    var minus = "";
-		    
-		    el.innerHTML = "Time: " + counter;
+		    el.innerHTML = "Time: 0" + minutes + ":00";
 
+		     // set time for the particular countdown
+		    var time = minutes * 60 + seconds;
 		    var interval = setInterval(function(){
-		      el.innerHTML = "Time: " + minus + counter--;
-
-		      	if(counter < 10) minus = "0";
-		      	if(counter < 0){
-		        	clearInterval(interval);
+		        // if the time is 0 then end the counter
+		        if (time <= 0) {
+		           	clearInterval(interval);
 		        	lingo.gameOver(el);
+		        }
 
-		     	}
+		        var minutes = Math.floor( time / 60 );
+		        if (minutes < 10) minutes = "0" + minutes;
+		        
+		        var seconds = time % 60;
+		        if (seconds < 10) seconds = "0" + seconds; 
+		        	el.innerHTML = "Time: " + minutes + ':' + seconds; 
+		        
+		        time--;
 		    }, 1000);
 		},
 
 		// Show player score on page
 		score: function(){
 			var score = document.getElementById("score");
-			score.innerHTML = "Score: 280";
+			var obj = this.gameObject;
+
+			console.log(obj);
+
+			score.innerHTML = "Score: " + obj.score;
 		},
 
 		render: function(){
 			this.score();
-			this.time();
+			this.time(0,1);
 			this.lives();
 		}
 	}
@@ -278,30 +287,57 @@ window.addEventListener('load', function(){
 		},
 
 		splitUserInput: function(){
-			var input_value_validated = this.validateUserInput();
-			var word_array = input_value_validated.split("");
-			var column = document.getElementsByClassName("playboard_column");
+			
+			var letters 	= this.validateUserInput().split("");
+			var column 		= document.getElementsByClassName("playboard_column");
 
-			for(var i = 0; i < word_array.length; i++){
-				setTimeout(function(i) {    
-				    column[i].innerHTML += "<p>" + word_array[i] + "</p>";
-				}, i * 500, i);
-			}
+			for(var i = 0; i < letters.length; i++)
+				column[i].innerHTML += "<p>" + letters[i] + "</p>";
 
-			return true;
+			return letters;
 		},
 
-		checkWord: function(){
-			// check if word match
+		checkWord: function(row){
+			var letters 		= this.splitUserInput();
+			var input_value 	= this.validateUserInput();
+			var column_count 	= this.gameConfig.game_mode;
+			var column_value 	= [];
+
+			// Check if variables are set and true.
+			if(letters && input_value && column_count){
+
+				// Get input value's from column grid and return it in an array.
+				for(var i = 0; column_count > i; i++){
+					var column 	= document.getElementsByClassName("playboard_column")[i];
+					var text 	= column.getElementsByTagName("p")[0].innerHTML;
+
+					column_value.push(text);
+				}
+
+				// Check if column value match with input value;
+				console.log(column_value);
+				
+				//setTimeout(function(i){    
+					// check if word match
+				//}, i * 500, i);
+			}
+
+			return false;
 		},
 
 		run: function(){
-			var submit = document.getElementById("playboard_submit");
+			var submit 	= document.getElementById("playboard_submit");
+			var row 	= 1;
+			
 			submit.addEventListener('click', function(){
-				
-				if(lingo.validateUserInput() && lingo.splitUserInput()){
-					console.log('true');	
-					//lingo.checkWord();
+
+				if(	lingo.validateUserInput() && 
+					lingo.splitUserInput() != null
+				){	
+					// Check if user input match word.	
+					lingo.checkWord(row++);
+						// console.log(row++);
+						//row++;
 				} else {
 					console.log('false');
 				}
