@@ -94,7 +94,7 @@ class Home extends MY_Controller
                 "lives" => $lives,
                 "round" => $round,
                 "score" => $score,
-                "word"  => $word
+                "word"  => strtoupper($word)
             ), JSON_FORCE_OBJECT);
         }
 

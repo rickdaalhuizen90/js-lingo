@@ -114,7 +114,7 @@ window.addEventListener('load', function() {
     
             // Button event for sinle player btn
             sp_btn.addEventListener('click', function() {
-                if (sp.style.display == "none") {
+                if (sp.style.display == "none"){
                     sp.style.display = "block";
                 } else {
                     sp.style.display = "none";
@@ -237,7 +237,7 @@ window.addEventListener('load', function() {
             * Check input value for special symbols
             */
             if (input_value != "" && input_value.length === str_length && input_value.match(regex)) {
-                return input_value.toUpperCase();
+                return input_value;
             } else {
     
                 errorMsg.style.display = "block";
@@ -257,15 +257,28 @@ window.addEventListener('load', function() {
             }
         },
     
+        splitWord: function(word) {
+            if (word == null) return;
+    
+            var word_upper = word.toUpperCase();
+            var letters = word_upper.split("");
+            var splitted = [];
+    
+            for (var i = 0; i < letters.length; i++) 
+                splitted.push(letters[i]);
+            
+            return splitted;
+        },
+    
         insertLettersInGrid: function(row) {
             if (row == null) return false;
 
-            var letters = this.validateUserInput();
-            var letters = letters.split("");
+            var user_input = this.validateUserInput();
+            var letters = this.splitWord(user_input);
     
             if (row < letters.length) {
-                var rows = document.getElementsByClassName("playboard_row")[row];
-                var column = rows.getElementsByClassName("playboard_column");
+                var row_el = document.getElementsByClassName("playboard_row")[row];
+                var column = row_el.getElementsByClassName("playboard_column");
     
                 // Insert letters in the right row and columns.
                 for (var i = 0; i < letters.length; i++) 
@@ -281,32 +294,82 @@ window.addEventListener('load', function() {
 
         checkWord: function(row) {
             // Random word & input value
-            var object = this.gameObject.word;
-            var word = this.validateUserInput();
+            var word = this.gameObject.word;
+            var results = [];
+            var input_value = document.getElementById("playboard_form").value;
             
             // Splitted random word & input value
-            var word = word.split("");
-            var guess_word = object.split("");
+            var splitted_word = this.splitWord(word);
+            var splitted_input = this.splitWord(input_value);
+
+            var letterSum = function(word){
+                var array_elements = word.sort();
+                var current = null;
+                var cnt = 0;
+                var results = {};
+                for (var i = 0; i <= array_elements.length; i++) {
+                    if (array_elements[i] != current) {
+                        if(cnt > 0)  results[current] = cnt;       
+
+                        current = array_elements[i];
+                        cnt = 1;
+                    } else {
+                        cnt++;
+                    }
+                }
+
+                return results;
+            }
+
+            // Check if variables are set and true.
+            if( splitted_word != null && 
+                splitted_input != null &&
+                splitted_word.length === splitted_input.length
+            ){
+                console.log(letterSum(splitted_word));
+                console.log(letterSum(splitted_input));
+                for (var i = 0; i < splitted_input.length; i++) {
+
+                    // Check if a letter exsist and match the right position(returns -1 on false)
+                    if(splitted_word[i] === splitted_input[i]) {
+
+                        results.push("mp");
+
+                    // Check if a letter exsists
+                    }else if(splitted_word.indexOf(splitted_input[i]) >= 0) {
+
+                        results.push("m"); 
+                         
+                    }  
+                } 
+
+                // Calback
+                this.renderCheckWord(results, row);
+            }
+        },
+
+        renderCheckWord: function(results, row) {
 
             // Grid elements
-            var rows   = document.getElementsByClassName("playboard_row")[row - 1];
-            var column = rows.getElementsByClassName("playboard_column");
+            var row_el = document.getElementsByClassName("playboard_row")[row - 1];
+            var column = row_el.getElementsByClassName("playboard_column");
+            
+            if(results.length > 0){
 
-            for(var i = 0; i < word.length; i++){
+                for(var i = 0; i < results.length; i++) {  
+                    setTimeout(function(i){
+                        if(results[i] === "mp"){
 
-                setTimeout(function(i){    
+                            column[i].getElementsByTagName("p")[0].style.backgroundColor = "#2bec7f"; 
+                            console.log(i + "  exsist and match the right position");
 
-                    var temp = column[i].getElementsByTagName("p")[0];
+                        }else if(results[i] === "m"){
 
-                    if(guess_word[i] == word[i]) {
-                        temp.className += " correct_position";
-                        guess_word[i] = "";      
-                    }else if(guess_word.includes(word[i])){              
-                        temp.className += " correct_word";
-                        guess_word[i] = "";   
-                    }
-
-                }, i * 500, i); 
+                            column[i].getElementsByTagName("p")[0].style.backgroundColor = "#e2e23e";
+                            console.log(i + " exsist");
+                        }
+                    }, i * 500, i); 
+                } 
             }
         },
 

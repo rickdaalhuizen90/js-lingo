@@ -266,17 +266,23 @@ main.container {
   width: 100%;
   max-width: 550px; }
   main.container #scoreboard {
-    display: inline-block;
+    display: block;
     margin: 0 auto;
+    margin-bottom: 15px !important;
     padding: 1em;
     width: 100%;
-    text-align: center; }
+    max-width: 450px;
+    border-radius: 0px 0px 8px 8px;
+    background: #12326C;
+    text-align: center;
+    -webkit-box-shadow: 2px 3px 9px -1px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 2px 3px 9px -1px rgba(0, 0, 0, 0.75);
+    box-shadow: 2px 3px 9px -1px rgba(0, 0, 0, 0.75); }
     main.container #scoreboard #score,
     main.container #scoreboard #time,
     main.container #scoreboard #lives {
-      margin-right: 1.2em;
-      padding: 10px 10px !important;
-      width: 25%;
+      display: inline-block;
+      width: 30%;
       color: #f7f3f3; }
   main.container #toggle_nav {
     position: relative;
@@ -302,7 +308,7 @@ main.container {
       position: relative;
       margin: 0 auto;
       height: 5em;
-      border: 1px solid #f7f3f3;
+      border: 1px solid rgba(255, 255, 255, 0.6);
       border-radius: 5px;
       display: inline-flex;
       width: 5em; }
@@ -311,18 +317,18 @@ main.container {
         text-align: center;
         width: 100%;
         height: 100%;
-        padding-top: 35%;
+        padding-top: 33%;
         font-size: 3em;
         background: #4092ce;
         font-family: sans-serif;
-        border-radius: 15px;
+        border-radius: 25%;
         color: #fff; }
   main.container #playboard_user_input #playboard_form {
     display: block;
     margin: 0 auto;
     width: 21em !important;
     background: rgba(56, 56, 101, 0.13) !important;
-    border: 1px solid #f7f3f3;
+    border: 1px solid rgba(255, 255, 255, 0.6);
     color: #f7f3f3;
     text-transform: uppercase;
     text-align: center;

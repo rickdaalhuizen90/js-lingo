@@ -17,9 +17,6 @@
         <!-- Stylesheets -->
         <link rel="stylesheet" href="<?php echo base_url('assets/stylesheets/css/style.css'); ?>">
 
-        <!-- Bootstrap 3.3.7 -->
+        <!-- Kube CSS -->
         <link rel="stylesheet" href="<?php echo base_url('assets/vendors/kube/dist/css/kube.min.css'); ?>">
-
-         <!-- Font Awesome 4.7.0 -->
-         <link rel="stylesheet" href="<?php echo base_url('assets/vendors/font-awesome-4.7.0/css/font-awesome.min.css'); ?>">
     </head>

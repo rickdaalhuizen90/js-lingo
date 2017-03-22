@@ -40,9 +40,9 @@
 <main class="container">
 	<!-- Scoreboard -->
 	<section id="scoreboard" class="col row auto">
-		<div id="score" class="col col-4 label base success"></div>
-		<div id="time" class="col col-4 label base warning"></div>
-		<div id="lives" class="col col-4 label base focus"></div>
+		<div id="score" class="col col-4"></div>
+		<div id="time" class="col col-4"></div>
+		<div id="lives" class="col col-4"></div>
 	</section>
 
 	<!-- Playboard -->
