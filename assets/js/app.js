@@ -143,6 +143,7 @@ window.addEventListener('load', function() {
     // Show player scores
     var scoreboard = {
         gameObject: cookies.getCookie("game_current"),
+        tempScores: [],
 
         // Show player lives on page
         lives: function() {
@@ -174,24 +175,53 @@ window.addEventListener('load', function() {
                 time--;
             }, 1000);
         },
-        
-        // Show player score on page
-        score: function(score = 0) {
-            var score_el = document.getElementById("score");
 
+        countScore: function() {
+            // Random word & input value
+            var object = this.gameObject.word;
+            var word = lingo.validateUserInput();
+            
+            // Splitted random word & input value
+            var word = word.split("");
+            var guess_word = object.split("");
 
-            score_el.innerHTML = "Score: " + score;  
+            // Scores
+            var scores = this.tempScores;
+
+            for(var i = 0; i < word.length; i++){
+
+                if(guess_word[i] == word[i]) {
+                    scores.push(20);
+                    guess_word[i] = ""; 
+                }else if(guess_word.includes(word[i])){  
+                    scores.push(10);
+                    guess_word[i] = ""; 
+                }
+            }
+
+            // Get the sum of the numbers in the array:
+            var total_score = scores.reduce(function(acc, val){ 
+                return acc + val; 
+            }, 0);
+
+            this.showScore(total_score);
         },
 
-        addScoreToLeaderBoard: function() {
-            // ajax call to save score from current game.
+        saveScore: function() {
+            // Ajax call to save score in leaderboard.
+        },
+        
+        // Show player score on page
+        showScore: function(total_score = 0) {
+            var score_el = document.getElementById("score");
+            score_el.innerHTML = "Score: " + total_score;
         },
         
         render: function() {
-            this.score();
+            this.showScore();
             this.time(3, 0);
             this.lives();
-        }
+        },
     }
     scoreboard.render();
 
@@ -236,7 +266,10 @@ window.addEventListener('load', function() {
             * Check if input value match the proper word length
             * Check input value for special symbols
             */
-            if (input_value != "" && input_value.length === str_length && input_value.match(regex)) {
+            if (input_value != "" && 
+                input_value.length === str_length &&
+                input_value.match(regex)
+            ) {
                 return input_value.toUpperCase();
             } else {
     
@@ -257,9 +290,7 @@ window.addEventListener('load', function() {
             }
         },
     
-        insertLettersInGrid: function(row) {
-            if (row == null) return false;
-
+        insertLettersInGrid: function(row = 0) {
             var letters = this.validateUserInput();
             var letters = letters.split("");
     
@@ -276,10 +307,11 @@ window.addEventListener('load', function() {
                 console.log("Game over!");
                 document.getElementById("time").innerHTML = "Game over!";
             }
+
             return false;
         },
 
-        checkWord: function(row) {
+        checkWord: function(row = 0) {
             // Random word & input value
             var object = this.gameObject.word;
             var word = this.validateUserInput();
@@ -294,19 +326,19 @@ window.addEventListener('load', function() {
 
             for(var i = 0; i < word.length; i++){
 
-                setTimeout(function(i){    
-
+                var doCheck = function(i) {
                     var temp = column[i].getElementsByTagName("p")[0];
 
                     if(guess_word[i] == word[i]) {
                         temp.className += " correct_position";
                         guess_word[i] = "";      
-                    }else if(guess_word.includes(word[i])){              
-                        temp.className += " correct_word";
+                    }else if(guess_word.includes(word[i])){    
+                        temp.className += " correct_letter";
                         guess_word[i] = "";   
                     }
+                }
 
-                }, i * 500, i); 
+                setTimeout(doCheck, i * 500, i); 
             }
         },
 
@@ -318,6 +350,7 @@ window.addEventListener('load', function() {
 
                 if (lingo.validateUserInput() && lingo.insertLettersInGrid(row++) != false) {
                     // Check if user input match word.	
+                    scoreboard.countScore();
                     lingo.checkWord(row);
                 }
             });

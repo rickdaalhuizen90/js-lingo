@@ -323,6 +323,10 @@ main.container {
         font-family: sans-serif;
         border-radius: 25%;
         color: #fff; }
+        main.container .playboard_row .col-4 p.correct_letter {
+          background: #e2e23e !important; }
+        main.container .playboard_row .col-4 p.correct_position {
+          background: #2bec7f !important; }
   main.container #playboard_user_input #playboard_form {
     display: block;
     margin: 0 auto;
