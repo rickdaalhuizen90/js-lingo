@@ -143,7 +143,8 @@ window.addEventListener('load', function() {
     // Show player scores
     var scoreboard = {
         gameObject: cookies.getCookie("game_current"),
-        tempScores: [],
+        tempScoreMatch: [],
+        tempScoreMatchP: [],
 
         // Show player lives on page
         lives: function() {
@@ -160,7 +161,6 @@ window.addEventListener('load', function() {
             var time = minutes * 60 + seconds;
             var interval = setInterval(function() {
     
-                // if time is 0 then end counter
                 if (time <= 0) {
                     clearInterval(interval);
                     lingo.gameOver(el);
@@ -185,33 +185,34 @@ window.addEventListener('load', function() {
             var word = word.split("");
             var guess_word = object.split("");
 
-            // Scores
-            var scores = this.tempScores;
-
             for(var i = 0; i < word.length; i++){
 
+                console.log(guess_word + " | " + word[i]);
+
                 if(guess_word[i] == word[i]) {
-                    scores.push(20);
+
+                    this.tempScoreMatchP.push(20);
                     guess_word[i] = ""; 
                 }else if(guess_word.includes(word[i])){  
-                    scores.push(10);
+                    this.tempScoreMatch.push(10);
                     guess_word[i] = ""; 
                 }
             }
 
             // Get the sum of the numbers in the array:
-            var total_score = scores.reduce(function(acc, val){ 
-                return acc + val; 
-            }, 0);
+            // var total_score = scores.reduce(function(acc, val){ 
+            //     return acc + val; 
+            // }, 0);
 
-            this.showScore(total_score);
+            console.log(this.tempScoreMatchP);
+            console.log(this.tempScoreMatch);
+            this.showScore();
         },
 
         saveScore: function() {
             // Ajax call to save score in leaderboard.
         },
         
-        // Show player score on page
         showScore: function(total_score = 0) {
             var score_el = document.getElementById("score");
             score_el.innerHTML = "Score: " + total_score;
@@ -324,7 +325,7 @@ window.addEventListener('load', function() {
             var rows   = document.getElementsByClassName("playboard_row")[row - 1];
             var column = rows.getElementsByClassName("playboard_column");
 
-            for(var i = 0; i < word.length; i++){
+            for(var i = 0; i <= word.length; i++){
 
                 var doCheck = function(i) {
                     var temp = column[i].getElementsByTagName("p")[0];
@@ -334,7 +335,7 @@ window.addEventListener('load', function() {
                         guess_word[i] = "";      
                     }else if(guess_word.includes(word[i])){    
                         temp.className += " correct_letter";
-                        guess_word[i] = "";   
+                        guess_ord[i] = "";   
                     }
                 }
 

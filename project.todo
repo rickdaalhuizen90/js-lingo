@@ -1,36 +1,4 @@
+
 LINGO PROJECT:
-Webapplicatie op basis van HTML,CSS, Javascript, PHP en MySQL
-
-Frameworks:
- ☐ Clientside: w3.css, geen jQuery
- ☐ Serverside: tiny, huge of code-igniter.
- ☐ Scheiding van content, style en behavior
- ☐ Responsive, mobile-first
- ☐ Versiebeheer: Github en SourceTree
- ☐ Planning: Trello (specificeren van de features)
- ☐ Datamodel in ERD
-
-Basic options:
- ☐ De speler speelt tegen de server
- ☐ De speler moet steeds een woord raden in een aantal pogingen
- ☐ De speler kan dit herhalen tot hij/zij wilt stoppen
- ☐ Je kunt de woordgrootte instellen
- ☐ De layout lijkt op Lingo van de TV
-
-Advanced options:
- ☐ Single-page application op basis van AJAX, OOP-JS
- ☐ Je kunt je inschrijven en aanmelden op de server
- ☐ De server houdt een highscore bij van een reeks van 10 woorden
- ☐ De speler kan het aantal pogingen instellen
- ☐ De woordendatabase kan worden beheerd (CRUD)
- ☐ Animaties van scores per woord
-
-Ultimate options:
- ☐ Single page application op basis van websockets
- ☐ Lingo wordt gespeeld zoals op TV 
- ☐ Spelers kunnen elkaar uitdagen
- ☐ Bij een geraden woord kan de speler een bal halen uit een bak om een lingo-kaart te vullen.
- ☐ Een volle rij (horizontaal, vertikaal of diagonaal) levert extra punten.
- ☐ Toeschouwers kunnen zich melden en de wedstrijd volgen,
- ☐ Spelers hebben een Avatar
- ☐ De speler kan zich aanmelden met de single sign-on van DV of via O-Auth.
+ ☐ score per woord
+ ☐ save score van current game in leaderboard
