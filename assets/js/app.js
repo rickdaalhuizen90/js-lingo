@@ -143,8 +143,7 @@ window.addEventListener('load', function() {
     // Show player scores
     var scoreboard = {
         gameObject: cookies.getCookie("game_current"),
-        tempScoreMatch: [],
-        tempScoreMatchP: [],
+        scores: [],
 
         // Show player lives on page
         lives: function() {
@@ -187,30 +186,23 @@ window.addEventListener('load', function() {
 
             for(var i = 0; i < word.length; i++){
 
-                console.log(guess_word + " | " + word[i]);
-
                 if(guess_word[i] == word[i]) {
 
-                    this.tempScoreMatchP.push(20);
+                    this.scores.push(20);
                     guess_word[i] = ""; 
                 }else if(guess_word.includes(word[i])){  
-                    this.tempScoreMatch.push(10);
-                    guess_word[i] = ""; 
+                    this.scores.push(10);
+                    word[i] = ""; 
                 }
             }
 
             // Get the sum of the numbers in the array:
-            // var total_score = scores.reduce(function(acc, val){ 
-            //     return acc + val; 
-            // }, 0);
+            var total_score = this.scores.reduce(function(acc, val){ 
+                return acc + val; 
+            }, 0);
 
-            console.log(this.tempScoreMatchP);
-            console.log(this.tempScoreMatch);
-            this.showScore();
-        },
-
-        saveScore: function() {
-            // Ajax call to save score in leaderboard.
+            
+            this.showScore(total_score);
         },
         
         showScore: function(total_score = 0) {
@@ -313,29 +305,27 @@ window.addEventListener('load', function() {
         },
 
         checkWord: function(row = 0) {
-            // Random word & input value
-            var object = this.gameObject.word;
-            var word = this.validateUserInput();
-            
             // Splitted random word & input value
-            var word = word.split("");
-            var guess_word = object.split("");
+            var word = this.validateUserInput().split("");
+            var guess_word = this.gameObject.word.split("");
 
             // Grid elements
             var rows   = document.getElementsByClassName("playboard_row")[row - 1];
             var column = rows.getElementsByClassName("playboard_column");
 
-            for(var i = 0; i <= word.length; i++){
+            for(var i = 0; i < word.length; i++){
 
                 var doCheck = function(i) {
+
                     var temp = column[i].getElementsByTagName("p")[0];
+                    console.log(temp);
 
                     if(guess_word[i] == word[i]) {
                         temp.className += " correct_position";
-                        guess_word[i] = "";      
+                        guess_word[i] = "";    
                     }else if(guess_word.includes(word[i])){    
                         temp.className += " correct_letter";
-                        guess_ord[i] = "";   
+                        word[i] = "";   
                     }
                 }
 
@@ -343,16 +333,45 @@ window.addEventListener('load', function() {
             }
         },
 
+        gameWon: function() {
+            var word = this.validateUserInput();
+            var guess_word = this.gameObject.word;
+            var lives = cookies.getCookie("game_current");
+
+            if (word == guess_word) {
+                alert("You won!");
+                // Get new random word.
+                // Save score in leaderboard (Ajax call)
+            } else if (word != guess_word) {
+                var column = document.querySelector(".playboard_row.row_" + guess_word.length + " .col");
+
+                if (column.childNodes.length != 0) {
+                    alert("You lose!");
+                    // Remove 1 life.
+                }
+            }
+        },
+
+        gameLose: function() {
+
+        },
+
         formSubmit: function() {
             var submit = document.getElementById("playboard_submit");
             var row = 0;
+            var timeout = cookies.getCookie("game_current").word.length;
             
             submit.addEventListener('click', function() {
 
                 if (lingo.validateUserInput() && lingo.insertLettersInGrid(row++) != false) {
                     // Check if user input match word.	
-                    scoreboard.countScore();
                     lingo.checkWord(row);
+
+                    // Put functions  end of the stack.
+                    setTimeout(function(){
+                        scoreboard.countScore();
+                        lingo.gameWon();
+                    }, timeout * 500);
                 }
             });
         },
